@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Firefighter Application Checklist 🔥</title>
+  <title>Florida Firefighter Pathway 🔥</title>
   <style>
     :root { color-scheme: dark; }
     * {
@@ -13,7 +13,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #121212;
+      background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
       color: #f1f1f1;
       padding: 1rem;
     }
@@ -26,51 +26,122 @@
       font-size: 2rem; 
       color: #ff5c5c; 
       margin-bottom: 0.5rem; 
+      text-align: center;
     }
     
     @media (min-width: 768px) {
       h1 { font-size: 2.5rem; }
     }
     
-    h2 { 
-      font-size: 1.2rem; 
-      margin-top: 2rem; 
-      color: #7FFFD4; 
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(127, 255, 212, 0.2);
     }
     
-    @media (min-width: 768px) {
-      h2 { font-size: 1.4rem; }
-    }
-    
-    ul { 
-      list-style: none; 
-      padding-left: 0; 
-    }
-    
-    .checklist-item {
-      margin: 1rem 0;
-      background: #1f1f1f;
+    .degree-advantage {
+      background: linear-gradient(135deg, rgba(127, 255, 212, 0.1), rgba(58, 123, 213, 0.1));
       padding: 1rem;
-      padding-right: 3rem;
-      border-left: 4px solid #7FFFD4;
       border-radius: 8px;
-      line-height: 1.5;
+      margin-bottom: 2rem;
+      border-left: 4px solid #7FFFD4;
+    }
+    
+    .timeline {
       position: relative;
+      margin: 2rem 0;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #7FFFD4, #ff5c5c);
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #1f1f1f;
+      border-radius: 12px;
+      margin-left: 60px;
+      border: 1px solid rgba(127, 255, 212, 0.1);
       transition: all 0.3s ease;
       cursor: pointer;
-      user-select: none;
     }
     
-    .checklist-item:hover {
+    .timeline-item:hover {
       background: #2a2a2a;
       transform: translateX(5px);
+      border-color: rgba(127, 255, 212, 0.3);
     }
     
-    .checklist-item.completed {
-      opacity: 0.6;
-      text-decoration: line-through;
-      border-left-color: #666;
-      background: #1a1a1a;
+    .timeline-item.completed {
+      opacity: 0.7;
+      background: rgba(127, 255, 212, 0.1);
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -50px;
+      top: 1.5rem;
+      width: 16px;
+      height: 16px;
+      background: #7FFFD4;
+      border-radius: 50%;
+      border: 3px solid #121212;
+    }
+    
+    .timeline-item.completed::before {
+      background: #4ade80;
+    }
+    
+    .step-number {
+      position: absolute;
+      left: -58px;
+      top: 1.1rem;
+      width: 32px;
+      height: 32px;
+      background: #7FFFD4;
+      color: #121212;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    
+    .step-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #7FFFD4;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .step-description {
+      color: #ccc;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    
+    .step-details {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border-left: 3px solid #ff5c5c;
     }
     
     .checkbox {
@@ -88,11 +159,6 @@
       justify-content: center;
     }
     
-    .checkbox:hover {
-      border-color: #ff5c5c;
-      transform: scale(1.1);
-    }
-    
     .checkbox.checked {
       background: #7FFFD4;
       border-color: #7FFFD4;
@@ -105,99 +171,21 @@
       font-size: 16px;
     }
     
-    .tooltip {
-      position: relative;
-      display: inline;
-      border-bottom: 1px dotted #7FFFD4;
-    }
-    
-    .tooltip .tooltip-text {
-      visibility: hidden;
-      width: 280px;
-      max-width: 90vw;
-      background-color: #2a2a2a;
-      color: #f1f1f1;
-      text-align: left;
-      border-radius: 8px;
-      padding: 12px;
-      position: absolute;
-      z-index: 1000;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      border: 1px solid #7FFFD4;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      font-weight: normal;
-      text-decoration: none;
-    }
-    
-    @media (min-width: 768px) {
-      .tooltip .tooltip-text {
-        width: 320px;
-        font-size: 0.9rem;
-      }
-    }
-    
-    .tooltip .tooltip-text::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -6px;
-      border-width: 6px;
-      border-style: solid;
-      border-color: #7FFFD4 transparent transparent transparent;
-    }
-    
-    /* Mobile: Show tooltip on tap */
-    @media (max-width: 767px) {
-      .tooltip.active .tooltip-text {
-        visibility: visible;
-        opacity: 1;
-      }
-    }
-    
-    /* Desktop: Show tooltip on hover */
-    @media (min-width: 768px) {
-      .tooltip:hover .tooltip-text {
-        visibility: visible;
-        opacity: 1;
-      }
-    }
-    
-    a {
-      color: #7FFFD4;
-      text-decoration: none;
-    }
-    
-    a:hover { 
-      text-decoration: underline; 
-    }
-    
-    .emoji { 
-      font-size: 1.2rem; 
-      margin-right: 0.5rem; 
-    }
-    
-    @media (min-width: 768px) {
-      .emoji { font-size: 1.5rem; }
+    .progress-section {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      text-align: center;
     }
     
     .progress-bar {
       width: 100%;
-      height: 8px;
+      height: 10px;
       background: #2a2a2a;
-      border-radius: 4px;
-      margin: 1.5rem 0;
+      border-radius: 5px;
+      margin: 1rem 0;
       overflow: hidden;
-    }
-    
-    @media (min-width: 768px) {
-      .progress-bar { margin: 2rem 0; }
     }
     
     .progress-fill {
@@ -207,26 +195,38 @@
       transition: width 0.5s ease;
     }
     
-    .progress-text {
-      text-align: center;
-      margin-top: 0.5rem;
-      color: #999;
-      font-size: 0.85rem;
+    .school-comparison {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border-left: 4px solid #ff5c5c;
     }
     
-    @media (min-width: 768px) {
-      .progress-text { font-size: 0.9rem; }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
     }
-
-    .item-content {
-      pointer-events: none;
+    
+    .comparison-table th,
+    .comparison-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-
-    .item-content a {
-      pointer-events: all;
+    
+    .comparison-table th {
+      background: rgba(255, 255, 255, 0.1);
+      color: #7FFFD4;
+      font-weight: bold;
     }
-
-    /* Auto-save status indicator */
+    
+    .recommended-row {
+      background: rgba(127, 255, 212, 0.1);
+      border: 1px solid #7FFFD4;
+    }
+    
     .save-status {
       text-align: center;
       padding: 8px 16px;
@@ -242,179 +242,290 @@
     .save-status.show {
       opacity: 1;
     }
+    
+    .contact-section {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border-left: 4px solid #7FFFD4;
+    }
+    
+    a {
+      color: #7FFFD4;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .phone-link {
+      display: inline-block;
+      background: #7FFFD4;
+      color: #121212;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-top: 0.5rem;
+      transition: background 0.2s ease;
+    }
+    
+    .phone-link:hover {
+      background: #66e5cc;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
-  <h1>🔥 Firefighter Application Checklist (Pinellas County)</h1>
-  <p>Your step-by-step roadmap to becoming a certified Florida firefighter through St. Petersburg College.</p>
-  
-  <div class="progress-bar">
-    <div class="progress-fill" id="progressFill"></div>
-  </div>
-  <div class="progress-text" id="progressText">0% Complete</div>
-  
-  <div class="save-status" id="saveStatus">
-    ✓ Progress saved automatically - you can safely close this page
-  </div>
-  
-  <h2>✅ Start Here</h2>
-  <ul>
-    <li class="checklist-item" data-item="requirements">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">📋</span> 
-        <strong class="tooltip">Meet the requirements
-          <span class="tooltip-text">Must be 18+ years old, high school diploma/GED, clean criminal record (no felonies), non-user of tobacco products, pass medical exam, and be in good physical condition. Some departments require residency within city/county limits.</span>
-        </strong>: Be 18+, no felonies, non-tobacco user, in good shape. <a href="https://law.justia.com/codes/florida/title-xxxvii/chapter-633/part-iv/section-633-412/" target="_blank">Details</a>
-      </div>
-    </li>
-    <li class="checklist-item" data-item="spc-program">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">🚒</span> 
-        <strong class="tooltip">Apply to the Fire Program (after PAT)
-          <span class="tooltip-text">Now apply to the actual firefighter program! St. Petersburg College offers a comprehensive program combining Firefighter I & II certification with EMT training. This is the most efficient path in Florida. Program runs 6-12 months. Costs around $3,000-$5,000 total. Limited seats available.</span>
-        </strong> - <a href="https://www.spcollege.edu/future-students/degrees-training/public-safety-public-policy-and-legal-studies/public-safety/firefighting-academy" target="_blank">Apply Now</a>
-      </div>
-    </li>
-    <li class="checklist-item" data-item="spc-college">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">📝</span> 
-        <strong class="tooltip">Apply to SPC (college admission)
-          <span class="tooltip-text">First step: Get admitted to St. Petersburg College itself. This is separate from the fire program application. Apply early - you need to be a student before you can enter the fire program. Financial aid available.</span>
-        </strong>: <a href="https://go.spcollege.edu/apply/" target="_blank">spcollege.edu/apply</a>
-      </div>
-    </li>
-    <li class="checklist-item" data-item="pat-test">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">💪</span> 
-        <strong class="tooltip">Register for and pass the PAT test
-          <span class="tooltip-text">Don't worry - you can do this! SPC Physical Ability Test (PAT) includes: stair climb with equipment, hose drag, equipment carry, ladder raise, forcible entry, search, and rescue simulation. Typically costs $50-100. Most people pass with 8-12 weeks of basic cardio and strength training. You've got this!</span>
-        </strong>: <a href="tel:727-302-6873">Call 727-302-6873</a> to schedule
-      </div>
-    </li>
-  </ul>
-  
-  <h2>📎 Documents You'll Need (For SPC)</h2>
-  <p style="font-size: 0.9rem; color: #999; margin-bottom: 1rem;">These are specific to St. Petersburg College. Other fire schools may have different requirements.</p>
-  <ul>
-    <li class="checklist-item" data-item="physical">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">💉</span> 
-        <strong class="tooltip">Physical exam + immunization records
-          <span class="tooltip-text">Standard health checkup - nothing scary! Department of Transportation (DOT) physical includes vision/hearing tests, cardiovascular screening, and drug test. Bring your shot records: Hepatitis B, MMR, Tetanus, TB screening. Costs $150-300. Most people pass easily.</span>
-        </strong>
-      </div>
-    </li>
-    <li class="checklist-item" data-item="cpr">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">🩺</span> 
-        <strong class="tooltip">CPR (Healthcare Provider) certification
-          <span class="tooltip-text">Easy class that takes 1 day! Must be American Heart Association (AHA) Healthcare Provider level - NOT basic CPR. Covers adult, child, infant CPR plus AED. Valid for 2 years. Available at hospitals, fire stations, Red Cross. Costs $50-150. You'll learn life-saving skills!</span>
-        </strong>
-      </div>
-    </li>
-    <li class="checklist-item" data-item="tabe">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">🧠</span> 
-        <strong class="tooltip">TABE test scores (10th grade level)
-          <span class="tooltip-text">Don't stress - it's just 10th grade level! Test of Adult Basic Education measures reading and math skills. Free practice tests online help you prepare. Can retake if needed. Schedule at SPC testing center. Some programs accept SAT/ACT scores instead. You've got the smarts for this!</span>
-        </strong>
-      </div>
-    </li>
-    <li class="checklist-item" data-item="background">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">🔍</span> 
-        <strong class="tooltip">Background check + drug screen
-          <span class="tooltip-text">Comprehensive background investigation including criminal history, employment verification, reference checks. Hair follicle or urine drug test. Process can take 4-8 weeks. Any criminal history (even misdemeanors) may disqualify - be honest on applications.</span>
-        </strong>
-      </div>
-    </li>
-  </ul>
-  
-  <h2>🎯 After You're Accepted</h2>
-  <ul>
-    <li class="checklist-item" data-item="courses">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">📚</span> 
-        <strong class="tooltip">Complete the Firefighter I & II courses + EMT training
-          <span class="tooltip-text">Intensive 6-month program. Firefighter I covers basics: fire behavior, ventilation, search/rescue. Firefighter II adds: strategy, tactics, incident command. EMT portion covers medical emergencies, trauma care, patient transport. Expect 40+ hours/week.</span>
-        </strong>
-      </div>
-    </li>
-    <li class="checklist-item" data-item="exams">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">🧪</span> 
-        <strong class="tooltip">Pass state certification exams
-          <span class="tooltip-text">Written and practical exams for both Firefighter and EMT certifications. Firefighter exam covers NFPA standards. EMT exam is National Registry (NREMT). Must pass both to work in Florida. Retakes available if needed. Study materials provided by school.</span>
-        </strong>
-      </div>
-    </li>
-    <li class="checklist-item" data-item="eligible">
-      <div class="checkbox"></div>
-      <div class="item-content">
-        <span class="emoji">🔥</span> 
-        <strong class="tooltip">Become eligible to work as a Florida firefighter!
-          <span class="tooltip-text">With state certifications, you can apply to any fire department in Florida. Starting salary typically $35,000-$55,000. Benefits usually include health insurance, retirement plan, paid time off. Career advancement opportunities to driver/engineer, lieutenant, captain, chief.</span>
-        </strong>
-      </div>
-    </li>
-  </ul>
-  
-  <p style="margin-top: 3rem; font-size: 0.9rem; color: #999;">Built with ❤️ by someone who wants to help. You got this.</p>
-  
-  <!-- Disclaimer and Contact Section -->
-  <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 4px solid #7FFFD4;">
-    <h3 style="color: #7FFFD4; margin-top: 0; font-size: 1rem;">⚠️ Disclaimer & Updates</h3>
-    <p style="font-size: 0.85rem; line-height: 1.4; margin-bottom: 1rem;">
-      This checklist is for informational purposes only and based on current SPC/Florida requirements as of 2025. 
-      Requirements may change. Always verify with SPC and your target fire department.
-    </p>
+  <div class="hero">
+    <h1>🔥 Florida Firefighter Pathway</h1>
+    <p style="font-size: 1.1rem; margin-bottom: 1rem;">Complete roadmap to becoming a certified firefighter in Tampa Bay/Pinellas County</p>
     
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem;">
+    <div class="degree-advantage">
+      <h3 style="color: #7FFFD4; margin: 0 0 0.5rem 0;">🎓 Associate Degree Advantage!</h3>
+      <p style="margin: 0; font-size: 0.9rem;">You get <strong>priority admission</strong>, skip basic skills testing, and earn <strong>$600/year extra</strong> as a firefighter!</p>
+    </div>
+  </div>
+  
+  <div class="progress-section">
+    <h3 style="color: #7FFFD4; margin-top: 0;">Your Progress</h3>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div id="progressText">0% Complete (0/8 steps)</div>
+    
+    <div class="save-status" id="saveStatus">
+      ✓ Progress saved automatically
+    </div>
+  </div>
+  
+  <div class="timeline">
+    <div class="timeline-item" data-item="emt-first">
+      <div class="checkbox"></div>
+      <div class="step-number">1</div>
+      <div class="step-title">
+        🩺 Get EMT Certification FIRST
+      </div>
+      <div class="step-description">
+        Florida requires EMT certification BEFORE fire academy. Start here to save time and money.
+      </div>
+      <div class="step-details">
+        <strong>Best Option:</strong> SPC EMT Program (16 weeks, $2,500-$4,000)<br>
+        <strong>Start Date:</strong> Multiple times per year<br>
+        <strong>Your Advantage:</strong> No placement testing required with your degree!<br>
+        <a href="tel:727-341-4432" class="phone-link">📞 Call SPC EMT: 727-341-4432</a>
+      </div>
+    </div>
+
+    <div class="timeline-item" data-item="apply-spc">
+      <div class="checkbox"></div>
+      <div class="step-number">2</div>
+      <div class="step-title">
+        📝 Apply to SPC (While Taking EMT)
+      </div>
+      <div class="step-description">
+        Apply to St. Petersburg College so you can get into their fire academy program.
+      </div>
+      <div class="step-details">
+        <strong>Process:</strong> Online application + official transcripts<br>
+        <strong>Your Advantage:</strong> Priority consideration as degree holder<br>
+        <strong>Timeline:</strong> Can do this while taking EMT<br>
+        <a href="https://go.spcollege.edu/apply/" target="_blank" style="color: #7FFFD4;">Apply to SPC Online →</a>
+      </div>
+    </div>
+
+    <div class="timeline-item" data-item="pat-test">
+      <div class="checkbox"></div>
+      <div class="step-number">3</div>
+      <div class="step-title">
+        💪 Take Physical Ability Test (PAT)
+      </div>
+      <div class="step-description">
+        Schedule and pass the physical fitness test. Most people pass with basic training!
+      </div>
+      <div class="step-details">
+        <strong>What It Is:</strong> Stair climb, hose drag, equipment carry, ladder raise, forcible entry<br>
+        <strong>Cost:</strong> $50-100<br>
+        <strong>Prep Time:</strong> 8-12 weeks of cardio and strength training<br>
+        <a href="tel:727-302-6873" class="phone-link">📞 Schedule PAT: 727-302-6873</a>
+      </div>
+    </div>
+
+    <div class="timeline-item" data-item="fire-academy">
+      <div class="checkbox"></div>
+      <div class="step-number">4</div>
+      <div class="step-title">
+        🚒 Apply to Fire Academy
+      </div>
+      <div class="step-description">
+        Apply to SPC Fire Academy after passing PAT and having EMT certification.
+      </div>
+      <div class="step-details">
+        <strong>Requirements:</strong> Passed PAT + EMT certified + SPC student<br>
+        <strong>Your Advantage:</strong> Priority admission (category #5 out of 6)<br>
+        <strong>Seats Available:</strong> 30-35 students from 65-85 applicants<br>
+        <strong>Duration:</strong> 13 weeks full-time OR 23 weeks part-time
+      </div>
+    </div>
+
+    <div class="timeline-item" data-item="complete-academy">
+      <div class="checkbox"></div>
+      <div class="step-number">5</div>
+      <div class="step-title">
+        📚 Complete Fire Academy Training
+      </div>
+      <div class="step-description">
+        Intensive training covering firefighter skills, safety, and emergency response.
+      </div>
+      <div class="step-details">
+        <strong>Training Includes:</strong> Fire behavior, ventilation, search/rescue, incident command<br>
+        <strong>Schedule:</strong> Monday-Friday 8:00 AM-5:00 PM (full-time)<br>
+        <strong>Location:</strong> 5005 126th Ave N, Clearwater<br>
+        <strong>What You Learn:</strong> Everything needed to be a professional firefighter
+      </div>
+    </div>
+
+    <div class="timeline-item" data-item="state-exams">
+      <div class="checkbox"></div>
+      <div class="step-number">6</div>
+      <div class="step-title">
+        🧪 Pass State Certification Exams
+      </div>
+      <div class="step-description">
+        Take Florida Firefighter II written and practical exams to get your state certification.
+      </div>
+      <div class="step-details">
+        <strong>Exams:</strong> Written test + practical skills demonstration<br>
+        <strong>Standards:</strong> Based on NFPA requirements<br>
+        <strong>Retakes:</strong> Available if needed<br>
+        <strong>Study Materials:</strong> Provided by SPC
+      </div>
+    </div>
+
+    <div class="timeline-item" data-item="apply-departments">
+      <div class="checkbox"></div>
+      <div class="step-number">7</div>
+      <div class="step-title">
+        🏢 Apply to Fire Departments
+      </div>
+      <div class="step-description">
+        Apply to local fire departments with your certifications and degree advantage.
+      </div>
+      <div class="step-details">
+        <strong>Top Options:</strong> St. Pete Fire ($54,909+), Clearwater Fire ($62,400+), Tampa Fire ($47,413+)<br>
+        <strong>Your Advantage:</strong> $600/year supplement for your degree<br>
+        <strong>Testing:</strong> FireTEAM test + CPAT + interviews<br>
+        <strong>Timeline:</strong> Can apply while finishing academy
+      </div>
+    </div>
+
+    <div class="timeline-item" data-item="hired">
+      <div class="checkbox"></div>
+      <div class="step-number">8</div>
+      <div class="step-title">
+        🎉 You're a Firefighter!
+      </div>
+      <div class="step-description">
+        Congratulations! You're now a certified Florida firefighter serving your community.
+      </div>
+      <div class="step-details">
+        <strong>Starting Salary:</strong> $50,000-$62,000 + $600 degree supplement<br>
+        <strong>Benefits:</strong> Health insurance, retirement plan, paid time off<br>
+        <strong>Career Growth:</strong> Driver/Engineer → Lieutenant → Captain → Chief<br>
+        <strong>Pride:</strong> You save lives and protect your community! 🚒
+      </div>
+    </div>
+  </div>
+  
+  <div class="school-comparison">
+    <h3 style="color: #ff5c5c; margin-top: 0;">💰 Tampa Bay Fire School Comparison</h3>
+    <p style="font-size: 0.9rem; margin-bottom: 1rem;">All options for your area, but SPC is recommended for Pinellas County residents.</p>
+    
+    <div style="overflow-x: auto;">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>School</th>
+            <th>Location</th>
+            <th>EMT + Fire Cost</th>
+            <th>Duration</th>
+            <th>Why Choose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="recommended-row">
+            <td><strong>⭐ St. Petersburg College</strong></td>
+            <td>Clearwater</td>
+            <td>$6,500-$7,000</td>
+            <td>7-9 months total</td>
+            <td>Closest, degree advantages, flexible schedules</td>
+          </tr>
+          <tr>
+            <td>Hillsborough Community College</td>
+            <td>Tampa</td>
+            <td>$6,000-$7,000</td>
+            <td>6-8 months</td>
+            <td>Established program, Tampa location</td>
+          </tr>
+          <tr>
+            <td>Manatee Technical College</td>
+            <td>Bradenton</td>
+            <td>$5,500-$6,000</td>
+            <td>8-13 months</td>
+            <td>South Tampa Bay, combined programs</td>
+          </tr>
+          <tr>
+            <td>Pasco-Hernando State College</td>
+            <td>New Port Richey</td>
+            <td>$5,000-$6,000</td>
+            <td>6-8 months</td>
+            <td>North Tampa Bay, modern facilities</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.8;">
+      ⭐ <strong>SPC Recommended</strong> for Pinellas residents: closest location, leverages your degree advantages, and has the most flexible scheduling options.
+    </p>
+  </div>
+  
+  <div class="contact-section">
+    <h3 style="color: #7FFFD4; margin-top: 0;">🤝 Need Help or Found an Error?</h3>
+    <p style="margin-bottom: 1rem;">This roadmap is specifically designed for associate degree holders in Pinellas County. Have questions or need updates?</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem;">
       <div>
-        <strong style="color: #ff5c5c;">🛠️ Found an error?</strong><br>
-        📧 <a href="mailto:info@gofercontent.com" style="color: #7FFFD4;">info@gofercontent.com</a><br>
-        📱 <a href="sms:727-353-9673" style="color: #7FFFD4;">727-353-9673</a><br>
-        💻 <a href="https://github.com/clipboard250/firefighter-checklist/issues" target="_blank" style="color: #7FFFD4;">GitHub Issues</a>
+        <strong style="color: #ff5c5c;">✉️ Contact Us</strong><br>
+        📧 <a href="mailto:info@gofercontent.com">info@gofercontent.com</a><br>
+        📱 <a href="sms:727-353-9673">727-353-9673</a><br>
+        💻 <a href="https://github.com/clipboard250/firefighter-checklist/issues" target="_blank">GitHub Issues</a>
       </div>
       <div>
-        <strong style="color: #ff5c5c;">☕ Support Us</strong><br>
-        <a href="https://coff.ee/gofercontent" target="_blank" style="color: #7FFFD4;">Buy us a coffee</a><br>
+        <strong style="color: #ff5c5c;">☕ Support This</strong><br>
+        <a href="https://coff.ee/gofercontent" target="_blank">Buy us a coffee</a><br>
         to keep this updated!
       </div>
     </div>
     
-    <p style="font-size: 0.75rem; margin-top: 1rem; opacity: 0.7;">
-      Powered by <a href="https://gofercontent.com" target="_blank" style="color: #7FFFD4;">GoferContent.com</a> | 
-      Open source on GitHub
-    </p>
+    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; opacity: 0.7;">
+      <p><strong>⚠️ Disclaimer:</strong> This roadmap is for informational purposes based on 2025 requirements. Always verify current requirements with schools and fire departments before making decisions.</p>
+      <p>Powered by <a href="https://gofercontent.com" target="_blank">GoferContent.com</a> | Open source on GitHub</p>
+    </div>
   </div>
   
   <script>
-    // Get all checklist items and checkboxes
-    const items = document.querySelectorAll('.checklist-item');
+    const timelineItems = document.querySelectorAll('.timeline-item');
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
     const saveStatus = document.getElementById('saveStatus');
-    const tooltips = document.querySelectorAll('.tooltip');
-    
-    // Store completed items - now using localStorage for persistence
     let completedItems = {};
     
-    // Load saved progress when page loads
     function loadProgress() {
-      items.forEach(item => {
+      timelineItems.forEach(item => {
         const itemId = item.dataset.item;
-        const isCompleted = localStorage.getItem(`ff-checklist-${itemId}`) === 'true';
+        const isCompleted = localStorage.getItem(`ff-pathway-${itemId}`) === 'true';
         
         if (isCompleted) {
           item.classList.add('completed');
@@ -425,39 +536,43 @@
       updateProgress();
     }
     
-    // Save progress to localStorage
     function saveProgress() {
       Object.keys(completedItems).forEach(itemId => {
-        localStorage.setItem(`ff-checklist-${itemId}`, 'true');
+        localStorage.setItem(`ff-pathway-${itemId}`, 'true');
       });
       
-      // Remove items that are no longer completed
-      items.forEach(item => {
+      timelineItems.forEach(item => {
         const itemId = item.dataset.item;
         if (!completedItems[itemId]) {
-          localStorage.removeItem(`ff-checklist-${itemId}`);
+          localStorage.removeItem(`ff-pathway-${itemId}`);
         }
       });
       
-      // Show save confirmation
       saveStatus.classList.add('show');
       setTimeout(() => {
         saveStatus.classList.remove('show');
       }, 2000);
     }
     
-    // Add click event to each checklist item
-    items.forEach(item => {
+    function updateProgress() {
+      const total = timelineItems.length;
+      const completed = Object.keys(completedItems).length;
+      const percentage = Math.round((completed / total) * 100);
+      
+      progressFill.style.width = percentage + '%';
+      progressText.textContent = `${percentage}% Complete (${completed}/${total} steps)`;
+      
+      if (percentage === 100) {
+        progressText.textContent = `🎉 ${percentage}% Complete! You're ready to be a firefighter! 🚒`;
+      }
+    }
+    
+    timelineItems.forEach(item => {
       const checkbox = item.querySelector('.checkbox');
       const itemId = item.dataset.item;
       
-      // Add click event for checking off items
       item.addEventListener('click', (e) => {
-        // Don't toggle if clicking on a link
         if (e.target.tagName === 'A') return;
-        
-        // Don't toggle if clicking on tooltip (let tooltip handle it)
-        if (e.target.closest('.tooltip')) return;
         
         const isCompleted = item.classList.contains('completed');
         
@@ -476,56 +591,8 @@
       });
     });
     
-    // Handle mobile tooltips
-    tooltips.forEach(tooltip => {
-      tooltip.addEventListener('click', (e) => {
-        e.stopPropagation();
-        
-        // On mobile, toggle tooltip visibility
-        if (window.innerWidth <= 767) {
-          // Close all other tooltips
-          tooltips.forEach(t => {
-            if (t !== tooltip) {
-              t.classList.remove('active');
-            }
-          });
-          
-          // Toggle this tooltip
-          tooltip.classList.toggle('active');
-        }
-      });
-    });
-    
-    // Close tooltips when clicking elsewhere on mobile
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 767) {
-        if (!e.target.closest('.tooltip')) {
-          tooltips.forEach(tooltip => {
-            tooltip.classList.remove('active');
-          });
-        }
-      }
-    });
-    
-    // Update progress bar
-    function updateProgress() {
-      const total = items.length;
-      const completed = Object.keys(completedItems).length;
-      const percentage = Math.round((completed / total) * 100);
-      
-      progressFill.style.width = percentage + '%';
-      progressText.textContent = `${percentage}% Complete (${completed}/${total} steps)`;
-      
-      // Add some celebration when complete!
-      if (percentage === 100) {
-        progressText.textContent = `🎉 ${percentage}% Complete! You're ready to be a firefighter! 🚒`;
-      }
-    }
-    
-    // Load progress when page first opens
     loadProgress();
     
-    // Auto-save every 30 seconds as backup
     setInterval(() => {
       if (Object.keys(completedItems).length > 0) {
         saveProgress();
