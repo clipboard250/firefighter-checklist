@@ -225,6 +225,23 @@
     .item-content a {
       pointer-events: all;
     }
+
+    /* Auto-save status indicator */
+    .save-status {
+      text-align: center;
+      padding: 8px 16px;
+      margin: 10px 0;
+      border-radius: 6px;
+      background: rgba(127, 255, 212, 0.1);
+      color: #7FFFD4;
+      font-size: 0.85rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .save-status.show {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -235,6 +252,10 @@
     <div class="progress-fill" id="progressFill"></div>
   </div>
   <div class="progress-text" id="progressText">0% Complete</div>
+  
+  <div class="save-status" id="saveStatus">
+    ✓ Progress saved automatically - you can safely close this page
+  </div>
   
   <h2>✅ Start Here</h2>
   <ul>
@@ -354,10 +375,47 @@
     const items = document.querySelectorAll('.checklist-item');
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
+    const saveStatus = document.getElementById('saveStatus');
     const tooltips = document.querySelectorAll('.tooltip');
     
-    // Store completed items in memory
+    // Store completed items - now using localStorage for persistence
     let completedItems = {};
+    
+    // Load saved progress when page loads
+    function loadProgress() {
+      items.forEach(item => {
+        const itemId = item.dataset.item;
+        const isCompleted = localStorage.getItem(`ff-checklist-${itemId}`) === 'true';
+        
+        if (isCompleted) {
+          item.classList.add('completed');
+          item.querySelector('.checkbox').classList.add('checked');
+          completedItems[itemId] = true;
+        }
+      });
+      updateProgress();
+    }
+    
+    // Save progress to localStorage
+    function saveProgress() {
+      Object.keys(completedItems).forEach(itemId => {
+        localStorage.setItem(`ff-checklist-${itemId}`, 'true');
+      });
+      
+      // Remove items that are no longer completed
+      items.forEach(item => {
+        const itemId = item.dataset.item;
+        if (!completedItems[itemId]) {
+          localStorage.removeItem(`ff-checklist-${itemId}`);
+        }
+      });
+      
+      // Show save confirmation
+      saveStatus.classList.add('show');
+      setTimeout(() => {
+        saveStatus.classList.remove('show');
+      }, 2000);
+    }
     
     // Add click event to each checklist item
     items.forEach(item => {
@@ -384,6 +442,7 @@
           completedItems[itemId] = true;
         }
         
+        saveProgress();
         updateProgress();
       });
     });
@@ -434,8 +493,15 @@
       }
     }
     
-    // Initialize progress
-    updateProgress();
+    // Load progress when page first opens
+    loadProgress();
+    
+    // Auto-save every 30 seconds as backup
+    setInterval(() => {
+      if (Object.keys(completedItems).length > 0) {
+        saveProgress();
+      }
+    }, 30000);
   </script>
 </body>
 </html>
