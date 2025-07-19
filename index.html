@@ -6,27 +6,59 @@
   <title>Firefighter Application Checklist 🔥</title>
   <style>
     :root { color-scheme: dark; }
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background-color: #121212;
       color: #f1f1f1;
-      padding: 2rem;
+      padding: 1rem;
     }
-    h1 { font-size: 2.5rem; color: #ff5c5c; margin-bottom: 0.5rem; }
-    h2 { font-size: 1.4rem; margin-top: 2rem; color: #7FFFD4; }
-    ul { list-style: none; padding-left: 0; }
+    
+    @media (min-width: 768px) {
+      body { padding: 2rem; }
+    }
+    
+    h1 { 
+      font-size: 2rem; 
+      color: #ff5c5c; 
+      margin-bottom: 0.5rem; 
+    }
+    
+    @media (min-width: 768px) {
+      h1 { font-size: 2.5rem; }
+    }
+    
+    h2 { 
+      font-size: 1.2rem; 
+      margin-top: 2rem; 
+      color: #7FFFD4; 
+    }
+    
+    @media (min-width: 768px) {
+      h2 { font-size: 1.4rem; }
+    }
+    
+    ul { 
+      list-style: none; 
+      padding-left: 0; 
+    }
     
     .checklist-item {
       margin: 1rem 0;
       background: #1f1f1f;
       padding: 1rem;
+      padding-right: 3rem;
       border-left: 4px solid #7FFFD4;
       border-radius: 8px;
       line-height: 1.5;
       position: relative;
       transition: all 0.3s ease;
       cursor: pointer;
+      user-select: none;
     }
     
     .checklist-item:hover {
@@ -45,12 +77,15 @@
       position: absolute;
       right: 1rem;
       top: 1rem;
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       border: 2px solid #7FFFD4;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .checkbox:hover {
@@ -67,36 +102,44 @@
       content: '✓';
       color: #121212;
       font-weight: bold;
-      font-size: 14px;
-      position: absolute;
-      left: 3px;
-      top: -2px;
+      font-size: 16px;
     }
     
     .tooltip {
       position: relative;
-      display: inline-block;
+      display: inline;
+      border-bottom: 1px dotted #7FFFD4;
     }
     
     .tooltip .tooltip-text {
       visibility: hidden;
-      width: 300px;
+      width: 280px;
+      max-width: 90vw;
       background-color: #2a2a2a;
       color: #f1f1f1;
       text-align: left;
       border-radius: 8px;
-      padding: 10px;
+      padding: 12px;
       position: absolute;
-      z-index: 1;
+      z-index: 1000;
       bottom: 125%;
       left: 50%;
-      margin-left: -150px;
+      transform: translateX(-50%);
       opacity: 0;
       transition: opacity 0.3s;
       border: 1px solid #7FFFD4;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       line-height: 1.4;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      font-weight: normal;
+      text-decoration: none;
+    }
+    
+    @media (min-width: 768px) {
+      .tooltip .tooltip-text {
+        width: 320px;
+        font-size: 0.9rem;
+      }
     }
     
     .tooltip .tooltip-text::after {
@@ -104,31 +147,57 @@
       position: absolute;
       top: 100%;
       left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
+      margin-left: -6px;
+      border-width: 6px;
       border-style: solid;
       border-color: #7FFFD4 transparent transparent transparent;
     }
     
-    .tooltip:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
+    /* Mobile: Show tooltip on tap */
+    @media (max-width: 767px) {
+      .tooltip.active .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+    
+    /* Desktop: Show tooltip on hover */
+    @media (min-width: 768px) {
+      .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
     }
     
     a {
       color: #7FFFD4;
       text-decoration: none;
     }
-    a:hover { text-decoration: underline; }
-    .emoji { font-size: 1.5rem; margin-right: 0.5rem; }
+    
+    a:hover { 
+      text-decoration: underline; 
+    }
+    
+    .emoji { 
+      font-size: 1.2rem; 
+      margin-right: 0.5rem; 
+    }
+    
+    @media (min-width: 768px) {
+      .emoji { font-size: 1.5rem; }
+    }
     
     .progress-bar {
       width: 100%;
       height: 8px;
       background: #2a2a2a;
       border-radius: 4px;
-      margin: 2rem 0;
+      margin: 1.5rem 0;
       overflow: hidden;
+    }
+    
+    @media (min-width: 768px) {
+      .progress-bar { margin: 2rem 0; }
     }
     
     .progress-fill {
@@ -142,7 +211,19 @@
       text-align: center;
       margin-top: 0.5rem;
       color: #999;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+    }
+    
+    @media (min-width: 768px) {
+      .progress-text { font-size: 0.9rem; }
+    }
+
+    .item-content {
+      pointer-events: none;
+    }
+
+    .item-content a {
+      pointer-events: all;
     }
   </style>
 </head>
@@ -159,31 +240,39 @@
   <ul>
     <li class="checklist-item" data-item="requirements">
       <div class="checkbox"></div>
-      <span class="emoji">📋</span> 
-      <strong class="tooltip">Meet the requirements
-        <span class="tooltip-text">Must be 18+ years old, high school diploma/GED, clean criminal record (no felonies), non-smoker for at least 1 year, pass medical exam, and be in good physical condition. Some departments require residency within city/county limits.</span>
-      </strong>: Be 18+, no felonies, non-smoker, in good shape. <a href="https://law.justia.com/codes/florida/title-xxxvii/chapter-633/part-iv/section-633-412/" target="_blank">Details</a>
+      <div class="item-content">
+        <span class="emoji">📋</span> 
+        <strong class="tooltip">Meet the requirements
+          <span class="tooltip-text">Must be 18+ years old, high school diploma/GED, clean criminal record (no felonies), non-smoker for at least 1 year, pass medical exam, and be in good physical condition. Some departments require residency within city/county limits.</span>
+        </strong>: Be 18+, no felonies, non-smoker, in good shape. <a href="https://law.justia.com/codes/florida/title-xxxvii/chapter-633/part-iv/section-633-412/" target="_blank">Details</a>
+      </div>
     </li>
     <li class="checklist-item" data-item="spc-program">
       <div class="checkbox"></div>
-      <span class="emoji">🚒</span> 
-      <strong class="tooltip">Apply to the SPC Combined Firefighter/EMT Program
-        <span class="tooltip-text">St. Petersburg College offers a comprehensive program combining Firefighter I & II certification with EMT training. This is the most efficient path in Florida. Program runs 6-12 months. Costs around $3,000-$5,000 total.</span>
-      </strong> <a href="https://www.spcollege.edu/future-students/degrees-training/public-safety-public-policy-and-legal-studies/public-safety/firefighting-academy" target="_blank">Apply Now</a>
+      <div class="item-content">
+        <span class="emoji">🚒</span> 
+        <strong class="tooltip">Apply to the SPC Combined Firefighter/EMT Program
+          <span class="tooltip-text">St. Petersburg College offers a comprehensive program combining Firefighter I & II certification with EMT training. This is the most efficient path in Florida. Program runs 6-12 months. Costs around $3,000-$5,000 total.</span>
+        </strong> - <a href="https://www.spcollege.edu/future-students/degrees-training/public-safety-public-policy-and-legal-studies/public-safety/firefighting-academy" target="_blank">Apply Now</a>
+      </div>
     </li>
     <li class="checklist-item" data-item="pat-test">
       <div class="checkbox"></div>
-      <span class="emoji">💪</span> 
-      <strong class="tooltip">Register for and pass the PAT test
-        <span class="tooltip-text">Physical Ability Test includes: stair climb with equipment, hose drag, equipment carry, ladder raise, forcible entry, search, and rescue simulation. Typically costs $50-100. Must pass within 10 minutes 20 seconds. Train cardio and functional strength for 8-12 weeks beforehand.</span>
-      </strong>: Call 727-302-6873 to schedule
+      <div class="item-content">
+        <span class="emoji">💪</span> 
+        <strong class="tooltip">Register for and pass the PAT test
+          <span class="tooltip-text">Physical Ability Test includes: stair climb with equipment, hose drag, equipment carry, ladder raise, forcible entry, search, and rescue simulation. Typically costs $50-100. Must pass within 10 minutes 20 seconds. Train cardio and functional strength for 8-12 weeks beforehand.</span>
+        </strong>: Call 727-302-6873 to schedule
+      </div>
     </li>
     <li class="checklist-item" data-item="spc-college">
       <div class="checkbox"></div>
-      <span class="emoji">📝</span> 
-      <strong class="tooltip">Apply to SPC (college)
-        <span class="tooltip-text">Separate application for the college itself. You need to be admitted to SPC before entering the fire program. Apply early - popular programs fill up fast. Financial aid available.</span>
-      </strong>: <a href="https://go.spcollege.edu/apply/" target="_blank">spcollege.edu/apply</a>
+      <div class="item-content">
+        <span class="emoji">📝</span> 
+        <strong class="tooltip">Apply to SPC (college)
+          <span class="tooltip-text">Separate application for the college itself. You need to be admitted to SPC before entering the fire program. Apply early - popular programs fill up fast. Financial aid available.</span>
+        </strong>: <a href="https://go.spcollege.edu/apply/" target="_blank">spcollege.edu/apply</a>
+      </div>
     </li>
   </ul>
   
@@ -191,31 +280,39 @@
   <ul>
     <li class="checklist-item" data-item="physical">
       <div class="checkbox"></div>
-      <span class="emoji">💉</span> 
-      <strong class="tooltip">Physical exam + immunization records
-        <span class="tooltip-text">Department of Transportation (DOT) physical required. Must include vision/hearing tests, cardiovascular screening, and drug test. Bring updated immunization records: Hepatitis B, MMR, Tetanus, Tuberculosis screening. Costs $150-300.</span>
-      </strong>
+      <div class="item-content">
+        <span class="emoji">💉</span> 
+        <strong class="tooltip">Physical exam + immunization records
+          <span class="tooltip-text">Department of Transportation (DOT) physical required. Must include vision/hearing tests, cardiovascular screening, and drug test. Bring updated immunization records: Hepatitis B, MMR, Tetanus, Tuberculosis screening. Costs $150-300.</span>
+        </strong>
+      </div>
     </li>
     <li class="checklist-item" data-item="cpr">
       <div class="checkbox"></div>
-      <span class="emoji">🩺</span> 
-      <strong class="tooltip">CPR (Healthcare Provider) certification
-        <span class="tooltip-text">Must be American Heart Association (AHA) Healthcare Provider level - NOT basic CPR. Includes adult, child, infant CPR plus AED training. Valid for 2 years. Available at hospitals, fire stations, Red Cross. Costs $50-150.</span>
-      </strong>
+      <div class="item-content">
+        <span class="emoji">🩺</span> 
+        <strong class="tooltip">CPR (Healthcare Provider) certification
+          <span class="tooltip-text">Must be American Heart Association (AHA) Healthcare Provider level - NOT basic CPR. Includes adult, child, infant CPR plus AED training. Valid for 2 years. Available at hospitals, fire stations, Red Cross. Costs $50-150.</span>
+        </strong>
+      </div>
     </li>
     <li class="checklist-item" data-item="tabe">
       <div class="checkbox"></div>
-      <span class="emoji">🧠</span> 
-      <strong class="tooltip">TABE test scores (10th grade level)
-        <span class="tooltip-text">Test of Adult Basic Education - measures reading and math skills. Must score at 10th grade level minimum. Free practice tests online. Can retake if needed. Schedule at SPC testing center. Some programs accept SAT/ACT scores instead.</span>
-      </strong>
+      <div class="item-content">
+        <span class="emoji">🧠</span> 
+        <strong class="tooltip">TABE test scores (10th grade level)
+          <span class="tooltip-text">Test of Adult Basic Education - measures reading and math skills. Must score at 10th grade level minimum. Free practice tests online. Can retake if needed. Schedule at SPC testing center. Some programs accept SAT/ACT scores instead.</span>
+        </strong>
+      </div>
     </li>
     <li class="checklist-item" data-item="background">
       <div class="checkbox"></div>
-      <span class="emoji">🔍</span> 
-      <strong class="tooltip">Background check + drug screen
-        <span class="tooltip-text">Comprehensive background investigation including criminal history, employment verification, reference checks. Hair follicle or urine drug test. Process can take 4-8 weeks. Any criminal history (even misdemeanors) may disqualify - be honest on applications.</span>
-      </strong>
+      <div class="item-content">
+        <span class="emoji">🔍</span> 
+        <strong class="tooltip">Background check + drug screen
+          <span class="tooltip-text">Comprehensive background investigation including criminal history, employment verification, reference checks. Hair follicle or urine drug test. Process can take 4-8 weeks. Any criminal history (even misdemeanors) may disqualify - be honest on applications.</span>
+        </strong>
+      </div>
     </li>
   </ul>
   
@@ -223,24 +320,30 @@
   <ul>
     <li class="checklist-item" data-item="courses">
       <div class="checkbox"></div>
-      <span class="emoji">📚</span> 
-      <strong class="tooltip">Complete the Firefighter I & II courses + EMT training
-        <span class="tooltip-text">Intensive 6-month program. Firefighter I covers basics: fire behavior, ventilation, search/rescue. Firefighter II adds: strategy, tactics, incident command. EMT portion covers medical emergencies, trauma care, patient transport. Expect 40+ hours/week.</span>
-      </strong>
+      <div class="item-content">
+        <span class="emoji">📚</span> 
+        <strong class="tooltip">Complete the Firefighter I & II courses + EMT training
+          <span class="tooltip-text">Intensive 6-month program. Firefighter I covers basics: fire behavior, ventilation, search/rescue. Firefighter II adds: strategy, tactics, incident command. EMT portion covers medical emergencies, trauma care, patient transport. Expect 40+ hours/week.</span>
+        </strong>
+      </div>
     </li>
     <li class="checklist-item" data-item="exams">
       <div class="checkbox"></div>
-      <span class="emoji">🧪</span> 
-      <strong class="tooltip">Pass state certification exams
-        <span class="tooltip-text">Written and practical exams for both Firefighter and EMT certifications. Firefighter exam covers NFPA standards. EMT exam is National Registry (NREMT). Must pass both to work in Florida. Retakes available if needed. Study materials provided by school.</span>
-      </strong>
+      <div class="item-content">
+        <span class="emoji">🧪</span> 
+        <strong class="tooltip">Pass state certification exams
+          <span class="tooltip-text">Written and practical exams for both Firefighter and EMT certifications. Firefighter exam covers NFPA standards. EMT exam is National Registry (NREMT). Must pass both to work in Florida. Retakes available if needed. Study materials provided by school.</span>
+        </strong>
+      </div>
     </li>
     <li class="checklist-item" data-item="eligible">
       <div class="checkbox"></div>
-      <span class="emoji">🔥</span> 
-      <strong class="tooltip">Become eligible to work as a Florida firefighter!
-        <span class="tooltip-text">With state certifications, you can apply to any fire department in Florida. Starting salary typically $35,000-$55,000. Benefits usually include health insurance, retirement plan, paid time off. Career advancement opportunities to driver/engineer, lieutenant, captain, chief.</span>
-      </strong>
+      <div class="item-content">
+        <span class="emoji">🔥</span> 
+        <strong class="tooltip">Become eligible to work as a Florida firefighter!
+          <span class="tooltip-text">With state certifications, you can apply to any fire department in Florida. Starting salary typically $35,000-$55,000. Benefits usually include health insurance, retirement plan, paid time off. Career advancement opportunities to driver/engineer, lieutenant, captain, chief.</span>
+        </strong>
+      </div>
     </li>
   </ul>
   
@@ -251,25 +354,23 @@
     const items = document.querySelectorAll('.checklist-item');
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
+    const tooltips = document.querySelectorAll('.tooltip');
     
-    // Load saved progress from memory
+    // Store completed items in memory
     let completedItems = {};
     
-    // Add click event to each item
+    // Add click event to each checklist item
     items.forEach(item => {
       const checkbox = item.querySelector('.checkbox');
       const itemId = item.dataset.item;
       
-      // Check if item was previously completed
-      if (completedItems[itemId]) {
-        item.classList.add('completed');
-        checkbox.classList.add('checked');
-      }
-      
-      // Add click event
+      // Add click event for checking off items
       item.addEventListener('click', (e) => {
         // Don't toggle if clicking on a link
         if (e.target.tagName === 'A') return;
+        
+        // Don't toggle if clicking on tooltip (let tooltip handle it)
+        if (e.target.closest('.tooltip')) return;
         
         const isCompleted = item.classList.contains('completed');
         
@@ -287,6 +388,37 @@
       });
     });
     
+    // Handle mobile tooltips
+    tooltips.forEach(tooltip => {
+      tooltip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // On mobile, toggle tooltip visibility
+        if (window.innerWidth <= 767) {
+          // Close all other tooltips
+          tooltips.forEach(t => {
+            if (t !== tooltip) {
+              t.classList.remove('active');
+            }
+          });
+          
+          // Toggle this tooltip
+          tooltip.classList.toggle('active');
+        }
+      });
+    });
+    
+    // Close tooltips when clicking elsewhere on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 767) {
+        if (!e.target.closest('.tooltip')) {
+          tooltips.forEach(tooltip => {
+            tooltip.classList.remove('active');
+          });
+        }
+      }
+    });
+    
     // Update progress bar
     function updateProgress() {
       const total = items.length;
@@ -295,6 +427,11 @@
       
       progressFill.style.width = percentage + '%';
       progressText.textContent = `${percentage}% Complete (${completed}/${total} steps)`;
+      
+      // Add some celebration when complete!
+      if (percentage === 100) {
+        progressText.textContent = `🎉 ${percentage}% Complete! You're ready to be a firefighter! 🚒`;
+      }
     }
     
     // Initialize progress
